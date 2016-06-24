@@ -55,11 +55,46 @@ class EarningsController extends \BaseController {
 
 		$earning->narrative = Input::get('narrative');
 
-		$a = str_replace( ',', '', Input::get('amount') );
+                $earning->formular = Input::get('formular');
 
+		if(Input::get('formular') == 'Instalments'){
+		$earning->instalments = Input::get('instalments');
+        $insts = Input::get('instalments');
+
+		$a = str_replace( ',', '', Input::get('amount') );
         $earning->earnings_amount = $a;
 
-		$earning->save();
+        $d=strtotime(Input::get('ddate'));
+
+        $earning->earning_date = date("Y-m-d", $d);
+
+        $effectiveDate = date('Y-m-d', strtotime("+".($insts-1)." months", strtotime(Input::get('ddate'))));
+
+        $First  = date('Y-m-01', strtotime(Input::get('ddate')));
+        $Last   = date('Y-m-t', strtotime($effectiveDate));
+
+        $earning->first_day_month = $First;
+
+        $earning->last_day_month = $Last;
+
+	    }else{
+	    $earning->instalments = '1';
+        $a = str_replace( ',', '', Input::get('amount') );
+        $earning->earnings_amount = $a;
+
+        $d=strtotime(Input::get('ddate'));
+
+        $earning->earning_date = date("Y-m-d", $d);
+
+        $First  = date('Y-m-01', strtotime(Input::get('ddate')));
+        $Last   = date('Y-m-t', strtotime(Input::get('ddate')));
+        
+
+        $earning->first_day_month = $First;
+
+        $earning->last_day_month = $Last;
+         }
+	$earning->save();
 
 		Audit::logaudit('Earnings', 'create', 'created: '.$earning->earnings_name.' for '.Employee::getEmployeeName(Input::get('employee')));
 
@@ -118,11 +153,48 @@ class EarningsController extends \BaseController {
 
 		$earning->narrative = Input::get('narrative');
 
-        $a = str_replace( ',', '', Input::get('amount') );
+                $earning->formular = Input::get('formular');
 
+		if(Input::get('formular') == 'Instalments'){
+		$earning->instalments = Input::get('instalments');
+        $insts = Input::get('instalments');
+
+		$a = str_replace( ',', '', Input::get('amount') );
         $earning->earnings_amount = $a;
 
-		$earning->update();
+        $d=strtotime(Input::get('ddate'));
+
+        $earning->earning_date = date("Y-m-d", $d);
+
+        $effectiveDate = date('Y-m-d', strtotime("+".($insts-1)." months", strtotime(Input::get('ddate'))));
+
+        $First  = date('Y-m-01', strtotime(Input::get('ddate')));
+        $Last   = date('Y-m-t', strtotime($effectiveDate));
+
+        $earning->first_day_month = $First;
+
+        $earning->last_day_month = $Last;
+
+	    }else{
+	    $earning->instalments = '1';
+        $a = str_replace( ',', '', Input::get('amount') );
+        $earning->earnings_amount = $a;
+
+        $d=strtotime(Input::get('ddate'));
+
+        $earning->earning_date = date("Y-m-d", $d);
+
+        $First  = date('Y-m-01', strtotime(Input::get('ddate')));
+        $Last   = date('Y-m-t', strtotime(Input::get('ddate')));
+        
+
+        $earning->first_day_month = $First;
+
+        $earning->last_day_month = $Last;
+
+	    }
+
+        	$earning->update();
 
 		Audit::logaudit('Earnings', 'update', 'updated: '.$earning->earnings_name.' for '.Employee::getEmployeeName($earning->employee_id));
 
