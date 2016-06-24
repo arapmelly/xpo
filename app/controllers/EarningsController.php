@@ -55,7 +55,7 @@ class EarningsController extends \BaseController {
 
 		$earning->narrative = Input::get('narrative');
 
-                $earning->formular = Input::get('formular');
+		$earning->formular = Input::get('formular');
 
 		if(Input::get('formular') == 'Instalments'){
 		$earning->instalments = Input::get('instalments');
@@ -74,9 +74,15 @@ class EarningsController extends \BaseController {
         $Last   = date('Y-m-t', strtotime($effectiveDate));
 
         $earning->first_day_month = $First;
+<<<<<<< HEAD
 
         $earning->last_day_month = $Last;
 
+=======
+
+        $earning->last_day_month = $Last;
+
+>>>>>>> 344e66c77e834c6fbea4169e273928fcb30d02f3
 	    }else{
 	    $earning->instalments = '1';
         $a = str_replace( ',', '', Input::get('amount') );
@@ -93,8 +99,15 @@ class EarningsController extends \BaseController {
         $earning->first_day_month = $First;
 
         $earning->last_day_month = $Last;
+<<<<<<< HEAD
          }
 	$earning->save();
+=======
+
+	    }
+
+		$earning->save();
+>>>>>>> 344e66c77e834c6fbea4169e273928fcb30d02f3
 
 		Audit::logaudit('Earnings', 'create', 'created: '.$earning->earnings_name.' for '.Employee::getEmployeeName(Input::get('employee')));
 
@@ -153,6 +166,7 @@ class EarningsController extends \BaseController {
 
 		$earning->narrative = Input::get('narrative');
 
+<<<<<<< HEAD
                 $earning->formular = Input::get('formular');
 
 		if(Input::get('formular') == 'Instalments'){
@@ -178,12 +192,42 @@ class EarningsController extends \BaseController {
 	    }else{
 	    $earning->instalments = '1';
         $a = str_replace( ',', '', Input::get('amount') );
+=======
+        $earning->formular = Input::get('formular');
+
+		if(Input::get('formular') == 'Instalments'){
+		$earning->instalments = Input::get('instalments');
+        $insts = Input::get('instalments');
+
+		$a = str_replace( ',', '', Input::get('amount') );
+>>>>>>> 344e66c77e834c6fbea4169e273928fcb30d02f3
         $earning->earnings_amount = $a;
 
         $d=strtotime(Input::get('ddate'));
 
         $earning->earning_date = date("Y-m-d", $d);
 
+<<<<<<< HEAD
+=======
+        $effectiveDate = date('Y-m-d', strtotime("+".($insts-1)." months", strtotime(Input::get('ddate'))));
+
+        $First  = date('Y-m-01', strtotime(Input::get('ddate')));
+        $Last   = date('Y-m-t', strtotime($effectiveDate));
+
+        $earning->first_day_month = $First;
+
+        $earning->last_day_month = $Last;
+
+	    }else{
+	    $earning->instalments = '1';
+        $a = str_replace( ',', '', Input::get('amount') );
+        $earning->earnings_amount = $a;
+
+        $d=strtotime(Input::get('ddate'));
+
+        $earning->earning_date = date("Y-m-d", $d);
+
+>>>>>>> 344e66c77e834c6fbea4169e273928fcb30d02f3
         $First  = date('Y-m-01', strtotime(Input::get('ddate')));
         $Last   = date('Y-m-t', strtotime(Input::get('ddate')));
         
@@ -194,7 +238,11 @@ class EarningsController extends \BaseController {
 
 	    }
 
+<<<<<<< HEAD
         	$earning->update();
+=======
+		$earning->update();
+>>>>>>> 344e66c77e834c6fbea4169e273928fcb30d02f3
 
 		Audit::logaudit('Earnings', 'update', 'updated: '.$earning->earnings_name.' for '.Employee::getEmployeeName($earning->employee_id));
 

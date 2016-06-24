@@ -7,6 +7,7 @@ document.getElementById("edate").value = '';
  function totalBalance() {
       var instals = document.getElementById("instalments").value;
       var amt = document.getElementById("amount").value.replace(/,/g,'');
+
       var total = instals * amt*10;
       total=total.toLocaleString('en-US',{minimumFractionDigits: 2});
       document.getElementById("balance").value = total;

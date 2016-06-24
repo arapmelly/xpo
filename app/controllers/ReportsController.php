@@ -9135,4 +9135,95 @@ public function period_advrem()
 
 }
 
+public function inventoryreports(){
+
+    
+    $report = Input::get('report_type');
+    $from  = Input::get('start_date');
+    $to  = Input::get('end_date');
+    $itm   = Input::get('items');
+    $store  = Input::get('store');
+    $client   = Input::get('client');
+    $event  = Input::get('event');
+    $store  = Input::get('store');
+    $item  = Input::get('items');
+    $test  = Input::get('tests');
+
+    $accounts = Account::all();
+            
+    $booking = Booking::where('client_id', Input::get('client'))
+                        ->where('event', Input::get('event'))
+                        ->first();
+
+    $mtnstests = Maintenance::where('test_id', Input::get('tests'))->whereBetween('date_tested', array($from,$to))->get();
+    $mtns = Maintenance::whereBetween('date_tested', array($from,$to))->get();
+    $nametest = Test::find(Input::get('tests'));
+
+    $checkouts = Check::whereBetween('date_out', array($from,$to))->whereNull('date_in')->get();
+    $checkins  = Check::whereBetween('date_in', array($from,$to))->whereNotNull('date_in')->get();
+    
+    $str = Location::where('id', Input::get('store'))->first();
+    $itm = Item::where('id', Input::get('items'))->first();
+
+    $items = Item::all();
+
+    $locations = Location::all();
+
+    $organization = Organization::find(1);
+
+    if($report == 'booking'){
+
+      $pdf = PDF::loadView('pdf.inventory.booking', compact('accounts','booking','items','from','to','client','event','organization'))->setPaper('a4')->setOrientation('potrait');
+  
+      return $pdf->stream('Booking.pdf');
+
+    }
+
+
+    if($report == 'store_list'){
+
+      $pdf = PDF::loadView('pdf.inventory.store', compact('organization','str','locations','store'))->setPaper('a4')->setOrientation('potrait');
+  
+      return $pdf->stream('Store Locations.pdf');
+
+    }
+
+
+    if($report == 'item_list'){
+
+      $pdf = PDF::loadView('pdf.inventory.itemlist', compact('organization','itm','items','item'))->setPaper('a4')->setOrientation('potrait');
+  
+      return $pdf->stream('Item List.pdf');
+
+    }
+
+    if($report == 'checkout'){
+
+      $pdf = PDF::loadView('pdf.inventory.checkout', compact('checkouts', 'from','to', 'organization'))->setPaper('a4')->setOrientation('potrait');
+  
+      return $pdf->stream('Items Checkout Report.pdf');
+
+    }
+
+    if($report == 'checkin'){
+
+      $pdf = PDF::loadView('pdf.inventory.checkin', compact('checkins', 'from','to', 'organization'))->setPaper('a4')->setOrientation('potrait');
+  
+      return $pdf->stream('Items Checkin Report.pdf');
+
+    }
+
+    if($report == 'maintenance'){
+
+      $pdf = PDF::loadView('pdf.inventory.maintain', compact('nametest','mtns','mtnstests','test', 'from','to', 'organization'))->setPaper('a4')->setOrientation('potrait');
+  
+      return $pdf->stream('Maintenance Report.pdf');
+
+    }
+
+
+
+  }
+
+
 }

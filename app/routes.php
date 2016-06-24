@@ -3054,25 +3054,28 @@ Route::get('assets/show/{id}', 'AssetsController@show');
 Route::group(['before' => 'manage_inventory_reports'], function() {
 
     Route::get('invreports', function(){
-
-
+ 
+      $clients = Client::all();
+      $bookings = Booking::all();
       $items = Item::all();
       $stores = Location::all();
+      $tests = Test::all();
 
-      return View::make('invreports', compact('items', 'stores'));
+      return View::make('invreports', compact('items', 'stores','bookings','clients','tests'));
 
     });
 
+     Route::post('invreports', 'ReportsController@inventoryreports');
+  
 
-     Route::post('invreports', function(){
+     /*Route::post('invreports', function(){
 
 
      $data = Input::all();
 
      return Redirect::back()->with('notice', 'You do not have sufficient information to generate this report');
 
-    });
-
+    });*/
 
 
 });
