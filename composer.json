@@ -13,7 +13,8 @@
 		"barryvdh/laravel-dompdf": "0.4.*",
 		"riskihajar/terbilang": "dev-master",
 		"maatwebsite/excel": "~1.3",
-		"cornford/backup": "1.*"
+		"cornford/backup": "1.*",
+		"google/apiclient": "1.*"
 
 	},
 	"autoload": {
