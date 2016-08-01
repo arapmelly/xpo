@@ -111,11 +111,11 @@ class Leaveapplication extends \Eloquent {
 		$name = $employee->first_name.' '.$employee->middle_name.' '.$employee->last_name;
 
 
-		Mail::send( 'emails.leaveapprove', array('application'=>$application, 'name'=>$name), function( $message ) use ($employee)
+		/*Mail::send( 'emails.leaveapprove', array('application'=>$application, 'name'=>$name), function( $message ) use ($employee)
 		{
     		
     		$message->to($employee->email_office )->subject( 'Leave Approval' );
-		});
+		});*/
 
 	}
 

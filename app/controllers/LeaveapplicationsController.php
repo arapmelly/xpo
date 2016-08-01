@@ -162,10 +162,10 @@ class LeaveapplicationsController extends \BaseController {
 
 		$data = Input::all();
 
-		if(Mailsender::checkConnection() == false){
+		/*if(Mailsender::checkConnection() == false){
 
 				return Redirect::back()->with('notice', 'Leave could not be approved. Internet connection could not be established. kindly check your mail settings');
-			} else {
+			} else {*/
 
 
 				Leaveapplication::approveLeaveApplication($data, $id);
@@ -173,7 +173,7 @@ class LeaveapplicationsController extends \BaseController {
 		return Redirect::route('leaveapplications.index');
 
 
-			}
+			//}
 
 
 		
